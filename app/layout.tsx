@@ -17,13 +17,9 @@ const spaceGrotesk = spaceGroteskk({
 });
 
 export const metadata: Metadata = {
-  title: "SlidesIO AI",
-  description: "Categorize emails using ChatGpt",
-  icons: {
-    icon: "/assets/images/site-logo.svg",
-  },
+  title: "Ayna Chat",
+  description: "A RealTime Chat App that echoes the messages of users",
 };
-
 export default function RootLayout({
   children,
 }: {
