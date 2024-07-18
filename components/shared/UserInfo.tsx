@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 
 const UserInfo = () => {
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 p-4">
       <div className="flex items-center justify-between">
         <h2 className="text-3xl font-bold">John Doe</h2>
         <Button>
