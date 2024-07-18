@@ -1,9 +1,13 @@
-import ControlBar from "@/components/shared/ControlBar";
-import getResponse from "@/lib/actions/getResponse.action";
+import Chat from "@/components/shared/Chat";
+import ChatList from "@/components/shared/ChatList";
 
 const Home = async () => {
-  // getResponse();
-  return <ControlBar />;
+  return (
+    <div className="flex">
+      <ChatList />
+      <Chat />
+    </div>
+  );
 };
 
 export default Home;
