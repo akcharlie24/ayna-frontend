@@ -1,14 +1,9 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { RiRobot3Fill } from "react-icons/ri";
+import { FiMessageSquare } from "react-icons/fi";
 
 const ChatItem = () => {
   return (
     <div className="flex items-center justify-center border-b border-solid border-[#dddddd35] pl-5">
-      <Avatar className="bg-black">
-        <AvatarFallback>
-          <RiRobot3Fill size={32} />
-        </AvatarFallback>
-      </Avatar>
+      <FiMessageSquare size={32} />
       <div className="flex max-w-sm flex-col gap-2 px-8 py-4">
         <p className="text-lg font-semibold">Chat 1</p>
         <p className="line-clamp-2 text-sm text-white">

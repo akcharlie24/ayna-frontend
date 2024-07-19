@@ -3,7 +3,8 @@ import UserInfo from "./UserInfo";
 
 const ChatList = () => {
   return (
-    <div className="flex-[1] ">
+    // TODO: manage responsiveness
+    <div className="hidden flex-[1] md:flex md:flex-col">
       <div className="flex flex-col gap-4">
         <UserInfo />
         <List />

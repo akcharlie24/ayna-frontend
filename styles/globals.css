@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: darkgray;
+  width: 0.5rem;
+  border-radius: 5px;
+  display: none;
+}
+
+::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:active {
+  display: inline;
+}
+
 @layer utilities {
   .flex-center {
     @apply flex justify-center items-center;
