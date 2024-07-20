@@ -18,34 +18,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/context/AuthContext";
+import { getChatMessages, storeMessageToDB } from "@/lib/actions/chat.actions";
 
-const socket = io("http://localhost:1337"); // TODO: change to env variable
+export const socket = io("http://localhost:1337"); // TODO: change to env variable
 
-const Chat = () => {
+const Chat = ({ chatId }: { chatId: number }) => {
   const endRef = useRef(null);
+  const { user, authToken } = useAuth();
 
-  const [messages, setMessages] = useState([
-    {
-      text: "Hello, how are you?",
-      date: new Date("2024-07-19T10:00:00Z"),
-    },
-    {
-      text: "Just finished my work.",
-      date: new Date("2024-07-19T12:30:00Z"),
-    },
-    {
-      text: "Let's meet for lunch.",
-      date: new Date("2024-07-19T13:00:00Z"),
-    },
-    {
-      text: "I'm on my way.",
-      date: new Date("2024-07-19T14:15:00Z"),
-    },
-    {
-      text: "See you soon!",
-      date: new Date("2024-07-19T14:45:00Z"),
-    },
-  ]);
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     // @ts-ignore
@@ -53,9 +35,18 @@ const Chat = () => {
   }, [messages]);
 
   useEffect(() => {
+    const fetchMessages = async () => {
+      const data = await getChatMessages({ chatId, authToken });
+      setMessages(data.data.attributes.messages);
+      console.log(data.data.attributes.messages);
+    };
+
+    fetchMessages();
+
     socket.on("ser-message", (message) => {
       // @ts-ignore
       setMessages((prev) => [...prev, { text: message, date: Date.now() }]);
+      console.log(messages);
     });
   }, []);
 
@@ -68,8 +59,20 @@ const Chat = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof messageSchema>) {
+  async function onSubmit(values: z.infer<typeof messageSchema>) {
     console.log(values);
+    const newMessage = {
+      text: values.text,
+      date: Date.now(),
+    };
+    const data = await getChatMessages({ chatId, authToken });
+    const oldMessages = data.data.attributes.messages;
+    const updatedMessages = [...oldMessages, newMessage];
+    await storeMessageToDB({
+      chatId,
+      authToken,
+      messages: updatedMessages,
+    });
     socket.emit("user-message", values.text);
     form.reset();
   }
@@ -82,22 +85,14 @@ const Chat = () => {
             <RiRobot3Fill size={32} />
           </AvatarFallback>
         </Avatar>
-        <h2 className=" text-3xl font-bold">Chat 1 with Server</h2>
+        <h2 className=" text-3xl font-bold">{user?.username}</h2>
       </div>
       <div className="flex flex-[1] flex-col gap-5 overflow-y-scroll px-24 py-5">
         {messages.map((message, i) => {
           return (
             <>
-              <UserMessage
-                text={message.text}
-                date={message.date}
-                key={`User ${i}`}
-              />
-              <ServerMessage
-                text={message.text}
-                date={message.date}
-                key={`Server ${i}`}
-              />
+              <UserMessage text={message.text} date={message.date} />
+              <ServerMessage text={message.text} date={message.date} />
             </>
           );
         })}

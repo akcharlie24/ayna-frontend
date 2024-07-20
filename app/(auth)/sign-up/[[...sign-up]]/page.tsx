@@ -27,7 +27,7 @@ export default function SignUp() {
   const { login, user } = useAuth();
 
   useEffect(() => {
-    if (user) router.push("/chat");
+    if (user) router.push("/");
   }, [user, router]);
 
   const form = useForm<z.infer<typeof signUpSchema>>({
@@ -50,7 +50,7 @@ export default function SignUp() {
       });
     }
     login(data);
-    router.push("/chat");
+    router.push("/");
   }
 
   return (

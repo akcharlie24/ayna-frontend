@@ -49,7 +49,7 @@ export default function SignIn() {
       });
     }
     login(data);
-    router.push("/chat");
+    router.push("/");
   }
 
   return (

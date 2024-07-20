@@ -6,8 +6,8 @@ import { useParams } from "next/navigation";
 const Home = () => {
   const params = useParams();
   const { id } = params;
-  console.log(id);
-  return <Chat />;
+
+  return <Chat chatId={id} />;
 };
 
 export default Home;

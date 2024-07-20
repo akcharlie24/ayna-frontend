@@ -6,12 +6,36 @@ import { Input } from "../ui/input";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
+import { addChat } from "@/lib/actions/chat.actions";
+import { useToast } from "../ui/use-toast";
 
 const UserInfo = () => {
-  console.log("re-render");
   const [newChat, setNewChat] = useState("");
-  const { logout, user } = useAuth();
+  const { logout, user, authToken } = useAuth();
   const router = useRouter();
+  const { toast } = useToast();
+
+  const handleChatAddition = async () => {
+    if (newChat === "") {
+      return toast({
+        variant: "destructive",
+        title: "Please enter chat name",
+      });
+    }
+    const data = await addChat({
+      // @ts-ignore
+      authToken,
+      chatName: newChat,
+      // @ts-ignore
+      userId: user.id,
+    });
+    if (!data) {
+      return toast({
+        title: "Error adding chat, refresh and try again",
+      });
+    }
+    location.replace(`/chat/${data.data.id}`);
+  };
 
   return (
     <div className="flex flex-col gap-5 p-4">
@@ -33,7 +57,10 @@ const UserInfo = () => {
           value={newChat}
           onChange={(e) => setNewChat(e.target.value)}
         />
-        <Button className="flex w-1/3 items-center justify-center gap-2 bg-[rgba(17,25,40,0.5)] ">
+        <Button
+          className="flex w-1/3 items-center justify-center gap-2 bg-[rgba(17,25,40,0.5)] "
+          onClick={handleChatAddition}
+        >
           <p className="text-sm font-semibold">Add Chat</p>
           <FaPlus />
         </Button>

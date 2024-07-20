@@ -35,11 +35,16 @@ type Message = {
 export const getLastMessage = (messages: Message[]): string | null => {
   if (messages.length === 0) return null;
 
-  // Sort messages by date in descending order
-  const sortedMessages = messages.sort((a, b) =>
-    new Date(b.date) > new Date(a.date) ? -1 : 1,
-  );
+  let lastMessage = messages[0];
+  let lastDate = new Date(messages[0].date);
 
-  // Return the text of the last message
-  return sortedMessages[0].text;
+  for (let i = 1; i < messages.length; i++) {
+    const currentDate = new Date(messages[i].date);
+    if (currentDate > lastDate) {
+      lastMessage = messages[i];
+      lastDate = currentDate;
+    }
+  }
+
+  return lastMessage.text;
 };
