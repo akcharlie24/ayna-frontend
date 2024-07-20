@@ -17,9 +17,19 @@ import Link from "next/link";
 import { signUpSchema } from "@/forms/signUpSchema";
 import { signUpUser } from "@/lib/actions/user.action";
 import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 export default function SignUp() {
   const { toast } = useToast();
+  const router = useRouter();
+  const { login, user } = useAuth();
+
+  useEffect(() => {
+    if (user) router.push("/chat");
+  }, [user, router]);
+
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -35,9 +45,12 @@ export default function SignUp() {
       return toast({
         variant: "destructive",
         title: "SignIn Failed",
-        description: "There was a problem, Please Try Again",
+        description: `There was a problem (duplicate user or email)
+        , Please Try Again`,
       });
     }
+    login(data);
+    router.push("/chat");
   }
 
   return (

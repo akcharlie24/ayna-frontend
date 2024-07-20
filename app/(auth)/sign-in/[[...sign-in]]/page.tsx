@@ -17,9 +17,16 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { signInUser } from "@/lib/actions/user.action";
 import { useToast } from "@/components/ui/use-toast";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SignIn() {
   const { toast } = useToast();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (localStorage.getItem("authToken")) router.push("/chat");
+  }, []);
 
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -39,6 +46,9 @@ export default function SignIn() {
         description: "There was a problem, Please Try Again",
       });
     }
+    const sessionToken = data.jwt;
+    localStorage.setItem("authToken", sessionToken);
+    router.push("/chat");
   }
 
   return (
