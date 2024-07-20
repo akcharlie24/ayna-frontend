@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const socket = io("http://localhost:1337");
+const socket = io("http://localhost:1337"); // TODO: change to env variable
 
 const Chat = () => {
   const endRef = useRef(null);

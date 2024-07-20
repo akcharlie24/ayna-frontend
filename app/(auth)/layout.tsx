@@ -16,7 +16,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
         }}
         className="relative flex flex-col items-center justify-center gap-10 px-4"
       >
-        <div className="text-center font-inter text-3xl font-bold dark:text-white md:text-7xl">
+        <div className="text-center font-spaceGrotesk text-3xl font-bold dark:text-white md:text-7xl">
           Welcome To Ayna Chat
         </div>
         <div className="py-4 text-base font-extralight dark:text-neutral-200 md:text-4xl">
