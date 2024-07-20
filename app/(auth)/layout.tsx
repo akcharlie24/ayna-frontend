@@ -5,7 +5,7 @@ import React from "react";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <AuroraBackground>
+    <AuroraBackground className="z-0">
       <motion.div
         initial={{ opacity: 0.0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -19,7 +19,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
         <div className="text-center font-spaceGrotesk text-3xl font-bold dark:text-white md:text-7xl">
           Welcome To Ayna Chat
         </div>
-        <div className="py-4 text-base font-extralight dark:text-neutral-200 md:text-4xl">
+        <div className="z-20 py-4 text-base font-extralight dark:text-neutral-200 md:text-4xl">
           {children}
         </div>
       </motion.div>

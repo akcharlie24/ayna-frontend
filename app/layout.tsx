@@ -1,8 +1,8 @@
 import { Metadata } from "next";
-import { Inter, Space_Grotesk as spaceGroteskk } from "next/font/google"; // needed to write because of those camel case errors by eslint
+import { Inter, Space_Grotesk as spaceGroteskk } from "next/font/google";
 import React from "react";
 import "@/styles/globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,7 +28,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
-        <ClerkProvider>{children}</ClerkProvider>
+        {children}
+        <div className="text-red-600">
+          <Toaster />
+        </div>
       </body>
     </html>
   );

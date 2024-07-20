@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,8 +15,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { signInUser } from "@/lib/actions/user.action";
+import { useToast } from "@/components/ui/use-toast";
 
-export default function Page() {
+export default function SignIn() {
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -27,8 +30,15 @@ export default function Page() {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof signInSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof signInSchema>) {
+    const data = await signInUser(values);
+    if (!data) {
+      return toast({
+        variant: "destructive",
+        title: "SignIn Failed",
+        description: "There was a problem, Please Try Again",
+      });
+    }
   }
 
   return (
@@ -37,7 +47,7 @@ export default function Page() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex w-1/2 flex-col justify-center gap-4"
+          className="flex flex-col items-center justify-center gap-4"
         >
           <FormField
             control={form.control}
@@ -47,7 +57,7 @@ export default function Page() {
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
-                    className=" border-none bg-[rgba(6,10,18,0.81)] p-6 text-lg "
+                    className="w-80 border-none bg-[rgba(6,10,18,0.81)] p-6 text-lg "
                     placeholder="Enter your email"
                     {...field}
                   />
@@ -64,7 +74,8 @@ export default function Page() {
                 <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input
-                    className="border-none bg-[rgba(6,10,18,0.81)] p-6 text-lg"
+                    type="password"
+                    className="w-80 border-none bg-[rgba(6,10,18,0.81)] p-6 text-lg"
                     placeholder="Enter your password"
                     {...field}
                   />
@@ -74,10 +85,12 @@ export default function Page() {
             )}
           />
 
-          <Button type="submit">Submit</Button>
+          <Button type="submit" className="w-1/2 bg-black">
+            Submit
+          </Button>
         </form>
       </Form>
-      <p className="mt-12 text-lg">
+      <p className=" mt-12 text-lg">
         New to ayna chat ? SignUp{" "}
         <Link className=" font-inter text-blue-500" href={"/sign-up"}>
           here
