@@ -38,7 +38,6 @@ const Chat = ({ chatId }: { chatId: number }) => {
     const fetchMessages = async () => {
       const data = await getChatMessages({ chatId, authToken });
       setMessages(data.data.attributes.messages);
-      console.log(data.data.attributes.messages);
     };
 
     fetchMessages();
@@ -46,7 +45,6 @@ const Chat = ({ chatId }: { chatId: number }) => {
     socket.on("ser-message", (message) => {
       // @ts-ignore
       setMessages((prev) => [...prev, { text: message, date: Date.now() }]);
-      console.log(messages);
     });
   }, []);
 

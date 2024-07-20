@@ -1,4 +1,4 @@
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { FiMessageSquare } from "react-icons/fi";
 import { socket } from "./Chat";
@@ -11,6 +11,10 @@ type ChatItemType = {
 
 const ChatItem = ({ name, chatId, lastMessage }: ChatItemType) => {
   const router = useRouter();
+  const params = useParams();
+  const { id } = params;
+  // @ts-ignore
+  const currentId = parseInt(id);
 
   useEffect(() => {
     socket.on("chat-click", (chatId) => {
@@ -21,7 +25,7 @@ const ChatItem = ({ name, chatId, lastMessage }: ChatItemType) => {
 
   return (
     <div
-      className="my-2 ml-3 flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-solid border-[#dddddd35] bg-[rgba(5,5,12,0.66)]"
+      className={`my-2 ml-3 flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-solid border-[#dddddd35]  ${currentId == chatId ? "bg-[rgba(89,63,255,0.71)]" : "bg-[rgba(5,5,12,0.66)]"}`}
       onClick={() => {
         socket.emit("clicked-chat", chatId);
       }}

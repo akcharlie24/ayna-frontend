@@ -27,7 +27,7 @@ export default function SignIn() {
   const { login, user } = useAuth();
 
   useEffect(() => {
-    if (user) router.push("/chat");
+    if (user) router.push("/");
   }, [user, router]);
 
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -44,7 +44,7 @@ export default function SignIn() {
     if (!data) {
       return toast({
         variant: "destructive",
-        title: "SignIn Failed",
+        title: "SignIn Failed (Wrong Username Or Password)",
         description: "There was a problem, Please Try Again",
       });
     }
