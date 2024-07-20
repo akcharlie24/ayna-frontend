@@ -19,14 +19,16 @@ import { signInUser } from "@/lib/actions/user.action";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 export default function SignIn() {
   const { toast } = useToast();
   const router = useRouter();
+  const { login, user } = useAuth();
 
   useEffect(() => {
-    if (localStorage.getItem("authToken")) router.push("/chat");
-  }, []);
+    if (user) router.push("/chat");
+  }, [user, router]);
 
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -46,8 +48,7 @@ export default function SignIn() {
         description: "There was a problem, Please Try Again",
       });
     }
-    const sessionToken = data.jwt;
-    localStorage.setItem("authToken", sessionToken);
+    login(data);
     router.push("/chat");
   }
 

@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk as spaceGroteskk } from "next/font/google";
 import React from "react";
 import "@/styles/globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { AuthProvider } from "@/context/AuthContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
-        {children}
+        <AuthProvider>{children}</AuthProvider>
         <div className="text-red-600">
           <Toaster />
         </div>

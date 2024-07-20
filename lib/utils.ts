@@ -26,3 +26,20 @@ export function timeAgo(date: Date): string {
     return `${weeks} week${weeks !== 1 ? "s" : ""} ago`;
   }
 }
+
+type Message = {
+  date: string; // ISO date string
+  text: string;
+};
+
+export const getLastMessage = (messages: Message[]): string | null => {
+  if (messages.length === 0) return null;
+
+  // Sort messages by date in descending order
+  const sortedMessages = messages.sort((a, b) =>
+    new Date(b.date) > new Date(a.date) ? -1 : 1,
+  );
+
+  // Return the text of the last message
+  return sortedMessages[0].text;
+};

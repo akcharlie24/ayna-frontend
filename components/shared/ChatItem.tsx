@@ -1,16 +1,21 @@
 import { FiMessageSquare } from "react-icons/fi";
 
-const ChatItem = () => {
+type ChatItemType = {
+  name: string;
+  chatId: number;
+  lastMessage?: string | null;
+};
+
+const ChatItem = ({ name, chatId, lastMessage }: ChatItemType) => {
   return (
-    <div className="flex items-center justify-center border-b border-solid border-[#dddddd35] pl-5">
-      <FiMessageSquare size={32} />
-      <div className="flex max-w-sm flex-col gap-2 px-8 py-4">
-        <p className="text-lg font-semibold">Chat 1</p>
-        <p className="line-clamp-2 text-sm text-white">
-          Last message was this and this is it and this is a lorem meadfjdkj
-          kjadskf aksdljfalkdkaldsf dslkafjlkds kladsjfklaj alkdsjf lasldkjf j
-          sdlkfjdklsjflsdk kldsjflkadsjflkajsdfklj kladsfjkl
-        </p>
+    <div
+      className="my-2 ml-3 flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-solid border-[#dddddd35] bg-[rgba(5,5,12,0.66)]"
+      onClick={() => {}}
+    >
+      <FiMessageSquare size={40} className="w-1/6 p-0 pl-5" />
+      <div className="flex w-5/6 max-w-sm flex-col gap-2  px-5 py-4">
+        <p className="text-lg font-semibold">{name}</p>
+        <p className="line-clamp-2 text-sm text-white">{lastMessage || ""}</p>
       </div>
     </div>
   );
