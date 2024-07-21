@@ -58,7 +58,7 @@ export const getChatMessages = async ({
   chatId,
   authToken,
 }: {
-  chatId: string;
+  chatId: number;
   authToken: string;
 }) => {
   try {
@@ -83,7 +83,7 @@ export const storeMessageToDB = async ({
   authToken,
   messages,
 }: {
-  chatId: string;
+  chatId: number;
   authToken: string;
   messages: any;
 }) => {

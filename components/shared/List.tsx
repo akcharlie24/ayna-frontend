@@ -33,7 +33,6 @@ const List = () => {
   return (
     <div className="flex max-h-[70vh] min-h-[70vh]  flex-col overflow-y-scroll">
       {chats.map((chat: Chat) => {
-        console.log(chat.messages);
         return (
           <ChatItem
             key={chat.id}

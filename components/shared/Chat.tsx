@@ -34,21 +34,24 @@ const Chat = ({ chatId }: { chatId: number }) => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  useEffect(() => {
-    const fetchMessages = async () => {
+  const fetchMessages = async () => {
+    try {
+      // @ts-ignore
       const data = await getChatMessages({ chatId, authToken });
       setMessages(data.data.attributes.messages);
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  useEffect(() => {
     fetchMessages();
 
     socket.on("ser-message", (message) => {
       // @ts-ignore
       setMessages((prev) => [...prev, { text: message, date: Date.now() }]);
     });
-  }, []);
-
-  console.log("component re-rendered");
+  }, [chatId, authToken]);
 
   const form = useForm<z.infer<typeof messageSchema>>({
     resolver: zodResolver(messageSchema),
@@ -58,16 +61,17 @@ const Chat = ({ chatId }: { chatId: number }) => {
   });
 
   async function onSubmit(values: z.infer<typeof messageSchema>) {
-    console.log(values);
     const newMessage = {
       text: values.text,
       date: Date.now(),
     };
+    // @ts-ignore
     const data = await getChatMessages({ chatId, authToken });
     const oldMessages = data.data.attributes.messages;
     const updatedMessages = [...oldMessages, newMessage];
     await storeMessageToDB({
       chatId,
+      // @ts-ignore
       authToken,
       messages: updatedMessages,
     });
@@ -86,14 +90,26 @@ const Chat = ({ chatId }: { chatId: number }) => {
         <h2 className=" text-3xl font-bold">{user?.username}</h2>
       </div>
       <div className="flex flex-[1] flex-col gap-5 overflow-y-scroll px-24 py-5">
-        {messages.map((message, i) => {
-          return (
-            <>
-              <UserMessage text={message.text} date={message.date} />
-              <ServerMessage text={message.text} date={message.date} />
-            </>
-          );
-        })}
+        {messages.length === 0 ? (
+          <p>No messages yet</p>
+        ) : (
+          messages.map((message: { text: string; date: Date; id: number }) => {
+            return (
+              <>
+                <UserMessage
+                  text={message.text}
+                  date={message.date}
+                  key={message.id}
+                />
+                <ServerMessage
+                  text={message.text}
+                  date={message.date}
+                  key={message.id - 1}
+                />
+              </>
+            );
+          })
+        )}
         <div ref={endRef}></div>
       </div>
       <div className=" flex w-full items-center justify-center gap-4 py-6">

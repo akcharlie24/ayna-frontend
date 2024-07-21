@@ -13,9 +13,9 @@ const ServerMessage = ({ text, date }: { text: string; date: Date }) => {
         </AvatarFallback>
       </Avatar>
       <div className="flex flex-col">
-        <p className="max-w-lg text-wrap rounded-xl bg-[rgba(17,25,40,0.3)] p-3">
-          {text}
-        </p>
+        <div className="max-w-lg rounded-xl bg-[rgba(17,25,40,0.3)] p-3">
+          <p className="whitespace-pre-wrap break-words">{text}</p>
+        </div>
         <span className="p-1 text-sm text-gray-400">{dateString}</span>
       </div>
     </div>
