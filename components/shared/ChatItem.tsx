@@ -31,6 +31,7 @@ const ChatItem = ({ name, chatId, lastMessage }: ChatItemType) => {
       className={`my-2 ml-3 flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-solid border-[#dddddd35]  ${currentId === chatId ? "bg-[rgba(89,63,255,0.71)]" : "bg-[rgba(5,5,12,0.66)]"}`}
       onClick={() => {
         socket.emit("clicked-chat", chatId);
+        setLastMsg(lastMessage);
       }}
     >
       <FiMessageSquare size={40} className="w-1/6 p-0 pl-5" />

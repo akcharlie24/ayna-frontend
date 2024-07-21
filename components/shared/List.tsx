@@ -5,12 +5,15 @@ import { getChats } from "@/lib/actions/chat.actions";
 import { useEffect, useRef, useState } from "react";
 import { getLastMessage } from "@/lib/utils";
 import { Chat } from "@/types";
+import { useParams } from "next/navigation";
 
 const List = () => {
   const { authToken } = useAuth();
   const [chats, setChats] = useState([]);
 
   const endRef = useRef(null);
+  const params = useParams();
+  const { id } = params;
 
   useEffect(() => {
     // @ts-ignore
@@ -28,7 +31,7 @@ const List = () => {
       }
     };
     fetchChats();
-  }, [authToken]);
+  }, [authToken, id]);
 
   return (
     <div className="flex max-h-[70vh] min-h-[70vh]  flex-col overflow-y-scroll">

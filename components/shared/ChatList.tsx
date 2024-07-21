@@ -1,3 +1,5 @@
+"use client";
+import { useEffect } from "react";
 import List from "./List";
 import UserInfo from "./UserInfo";
 

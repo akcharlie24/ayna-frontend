@@ -34,7 +34,7 @@ const UserInfo = () => {
         title: "Error adding chat, refresh and try again",
       });
     }
-    location.replace(`/chat/${data.data.id}`);
+    router.push(`/chat/${data.data.id}`);
   };
 
   return (
