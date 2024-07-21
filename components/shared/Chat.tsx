@@ -21,7 +21,7 @@ import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/AuthContext";
 import { getChatMessages, storeMessageToDB } from "@/lib/actions/chat.actions";
 
-export const socket = io("http://localhost:1337"); // TODO: change to env variable
+export const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL as string);
 
 const Chat = ({ chatId }: { chatId: number }) => {
   const endRef = useRef(null);
